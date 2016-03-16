@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+        <form class="form-horizontal" method="post" action="/admin/recipes/update/<?php echo intval($id); ?>">
+            <div class="form-group">
+                <label for="descr" class="col-sm-2 control-label">Рецепт:</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" id="descr" name="descr" placeholder="Описание рецепта"><?php echo $recipe->getDescription(); ?></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="section" class="col-sm-2 control-label">Кулинарный раздел:</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="section" name="section">
+                        <?php foreach ($sections as $section) { ?>
+                            <option value="<?php echo $section->getId(); ?>"<?php if ($section->getId()==$recipe->getSection()->getId()) { ?> selected<?php } ?>><?php echo $section->getName(); ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                    <button type="submit" class="btn btn-default">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

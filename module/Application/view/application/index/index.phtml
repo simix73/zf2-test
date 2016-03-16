@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-md-3 col-lg-3 col-xs-3">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Список разделов</div>
+            <div class="panel-body">
+
+                <div class="list-group" style="margin-bottom:0;">
+                <?php if (!empty($sections)) {
+                    foreach ($sections as $section) {
+                        ($currentSection == $section->getId()) ? $activeItem = 'active' : $activeItem = '';
+
+                        echo '<a href="/?section='.$section->getId().'" class="list-group-item '.$activeItem.'">'.$section->getName().'</a>';
+                    }
+                } else { ?>
+                    <a class="list-group-item active"><i>Разделов пока нет</i></a>
+                <?php } ?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9 col-lg-9 col-xs-9">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Список записей (Всего: <?php echo $count; ?>)</div>
+            <div class="panel-body">
+                <form class="form-inline" method="get" action="/">
+                    <div class="form-group">
+                        <label for="search">Поиск:</label>
+                        <input type="text" class="form-control" id="search" name="searchstr" placeholder="ID, описание рецепта" style="width: 200px;" value="<?php echo $searchstr; ?>">
+                    </div>
+                    <button type="submit" class="btn btn-default">Найти</button>
+                </form>
+            </div>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td style="text-align:center;width:50px;"><b>#</b></td>
+                        <td><b>Описание рецепта</b></td>
+                        <td style="text-align:center;width:250px;"><b>Раздел</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (!empty($recipes)) { ?>
+                <?php foreach ($recipes as $value) { ?>
+                    <tr>
+                        <td><?php echo $value->getId(); ?></td>
+                        <td><?php echo $value->getDescription(); ?></td>
+                        <td><?php echo $value->getSection()->getName(); ?></td>
+                    </tr>
+                <?php } ?>
+                <?php } else { ?>
+                    <tr>
+                        <td colspan="3" style="text-align: center; font-weight: bold;"><i>Данные не найдены</i></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    table.table tbody tr td:first-child, table.table tbody tr td:last-child {
+        text-align: center;
+    }
+</style>

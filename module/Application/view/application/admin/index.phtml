@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Список рецептов (Всего: <?php echo $recipesCount; ?>) <a class="btn btn-success btn-xs pull-right" href="/admin/recipes/new"><i class="glyphicon glyphicon-plus"></i> Добавить запись</a></div>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <td style="text-align:center;width:50px;"><b>#</b></td>
+                        <td><b>Описание рецепта</b></td>
+                        <td style="text-align:center;width:250px;"><b>Раздел</b></td>
+                        <td style="text-align:center;width:250px;"><b>Действия</b></td>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php if (!empty($recipes)) { ?>
+                <?php foreach ($recipes as $value) { ?>
+                    <tr>
+                        <td><?php echo $value->getId(); ?></td>
+                        <td><?php echo $value->getDescription(); ?></td>
+                        <td><?php echo $value->getSection()->getName(); ?></td>
+                        <td><a class="btn btn-default btn-xs" href="/admin/recipes/edit/<?php echo $value->getId(); ?>"><i class="glyphicon glyphicon-pencil"></i> Редактировать</a>
+                            <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#removeModal" data-entity="recipes" data-id="<?php echo $value->getId(); ?>"><i class="glyphicon glyphicon-remove"></i> Удалить</a>
+                        </td>
+                    </tr>
+                <?php } ?>
+                <?php } else { ?>
+                    <tr>
+                        <td colspan="4" style="text-align: center; font-weight: bold;"><i>Данные не найдены</i></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-lg-12 col-xs-12">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Список кулинарных разделов (Всего: <?php echo $sectionsCount; ?>) <a class="btn btn-success btn-xs pull-right" href="/admin/sections/new"><i class="glyphicon glyphicon-plus"></i> Добавить запись</a></div>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                <tr>
+                    <td style="text-align:center;width:50px;"><b>#</b></td>
+                    <td><b>Наименование</b></td>
+                    <td style="text-align:center;width:250px;"><b>Действия</b></td>
+                </tr>
+                </thead>
+                <tbody>
+                <?php if (!empty($sections)) { ?>
+                    <?php foreach ($sections as $value) { ?>
+                        <tr>
+                            <td><?php echo $value->getId(); ?></td>
+                            <td><?php echo $value->getName(); ?></td>
+                            <td><a class="btn btn-default btn-xs" href="/admin/sections/edit/<?php echo $value->getId(); ?>"><i class="glyphicon glyphicon-pencil"></i> Редактировать</a>
+                                <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#removeModal" data-entity="sections" data-id="<?php echo $value->getId(); ?>"><i class="glyphicon glyphicon-remove"></i> Удалить</a>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                <?php } else { ?>
+                    <tr>
+                        <td colspan="3" style="text-align: center; font-weight: bold;"><i>Данные не найдены</i></td>
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Закрыть"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Подтверждение</h4>
+            </div>
+            <div class="modal-body">
+                Запись удалится безвозвратно. Продолжить?
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" data-dismiss="modal">Отмена</a>
+                <a href="" id="btn-remove" class="btn btn-danger">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#removeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+
+        var entity = button.data('entity');
+        var id = button.data('id');
+
+        var modal = $(this)
+        modal.find('.modal-footer a#btn-remove').attr('href', '/admin/' + entity + '/remove/' + id)
+    })
+</script>
+
+<style>
+    table.table tbody tr td:not(:nth-child(2)) {
+        text-align: center;
+    }
+</style>
