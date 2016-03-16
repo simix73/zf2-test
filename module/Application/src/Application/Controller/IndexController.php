@@ -31,12 +31,18 @@ class IndexController extends AbstractActionController
             $qb = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->createQueryBuilder();
             $recipes = $qb->select('recipes')
                 ->from('Application\Entity\Recipe', 'recipes')
-                ->where('(recipes.id = :id or lower(recipes.description) like \'%' . $searchstr . '%\') and (recipes.section_id = '.$sectionId.')')
+                ->where('(recipes.id = :id or lower(recipes.description) like \'%' . $searchstr . '%\') and (recipes.section = '.$sectionId.')')
                 ->setParameter('id', intval($searchstr))
                 ->getQuery()
                 ->getResult();
         } else {
-            $recipes = $recipes->findAll();
+            $qb = $this->getServiceLocator()->get('Doctrine\ORM\EntityManager')->createQueryBuilder();
+            $recipes = $qb->select('recipes')
+                ->from('Application\Entity\Recipe', 'recipes')
+                ->where('recipes.section = :section_id')
+                ->setParameter('section_id', $sectionId)
+                ->getQuery()
+                ->getResult();
         }
 
 

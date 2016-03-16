@@ -29,6 +29,7 @@
                         <label for="search">Поиск:</label>
                         <input type="text" class="form-control" id="search" name="searchstr" placeholder="ID, описание рецепта" style="width: 200px;" value="<?php echo $searchstr; ?>">
                     </div>
+                    <input type="hidden" name="section" value="<?php echo $currentSection; ?>"
                     <button type="submit" class="btn btn-default">Найти</button>
                 </form>
             </div>
